@@ -33,7 +33,7 @@ public class SignupService {
         authenticationAuthorizationInfo.setUserName(user.getEmailId());
         authenticationAuthorizationInfo.setPassword(pwd);
         authenticationAuthorizationInfo.setNewUser(user);
-        Roles roles=rolesRepository.getReferenceById(2);
+        Roles roles=rolesRepository.getReferenceById(3);
         if(roles!=null)
             authenticationAuthorizationInfo.setRoles(roles);
         Cart cart=new Cart();
