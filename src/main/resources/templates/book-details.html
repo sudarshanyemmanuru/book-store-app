@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="//www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .review-container {
+            max-height: 300px; /* Set the maximum height for the reviews */
+            overflow-y: auto; /* Enable vertical scrolling when content exceeds max height */
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .review-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            overflow: hidden; /* Clip overflow */
+        }
+        .profile-image-container {
+            width: 50px; /* Set the desired width for the profile image */
+            height: 50px; /* Set the desired height for the profile image */
+            border-radius: 50%; /* Make it a circular image */
+            float: left;
+            margin-right: 10px;
+            overflow: hidden; /* Clip overflow */
+        }
+        .profile-image {
+            width: 100%; /* Ensure the image fills the container */
+            height: 100%; /* Ensure the image fills the container */
+        }
+        .reviewer-name {
+            font-weight: bold;
+        }
+        .review-text {
+            clear: both;
+        }
+        .navbar{
+            background-color:#37517E!important;
+        }
+        .fst-section{
+            background-color:#37517E!important;
+        }
+        h1,h2,h3,h4,h5,h6{
+            font-family: "Jost", sans-serif!important
+        }
+        .logos-sec{
+            background-color: lightgray;
+            border-bottom: 1px soild #F3F5FA;
+        }
+        p,li{
+            font-family: 16px "Jost", sans-serif!important;
+        }
+        .qstn-sec{
+            background-color: #F3F5FA;
+        }
+        .service{
+            background-color: #F3F5FA;
+        }
+        .log-style{
+            background-color:#37517E!important ;
+            min-height: 500px;
+        }
+        .nav-item:hover{
+            border-bottom: 1px solid white;
+        }
+        .rating {
+            font-size: 25px;
+            display: inline-block;
+        }
+        .rating .star {
+            color: lightgray;
+            cursor: pointer;
+        }
+        .rating .star.gold {
+            color: gold;
+        }
+        .rating-1{
+             font-size: 25px;
+            display: inline-block;
+        }
+        .rating-1 .star{
+            color: lightgray;
+            cursor: pointer;
+        }
+        .rating-1 .star.gold{
+            color: gold;
+        }
+        .icon-button {
+            display: flex;
+            align-items: center;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            fill: white; /* Change the fill color as needed */
+        }
+    </style>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand">ReadEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link active icon-button" aria-current="page" th:href="@{/home/page/1}">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 2L0 12h4v10h16V12h4z"/>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link icon-button" th:href="@{/profile}">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 1.5c3.44 0 6.5 2.53 7.03 6.06-.32.15-.65.32-1.03.44-1.09.26-1.93.99-2.4 1.96-.16.35-.52.54-.88.54h-2.5c-.36 0-.72-.19-.88-.54-.47-.97-1.31-1.7-2.4-1.96-.38-.12-.71-.29-1.03-.44.53-3.53 3.59-6.06 7.03-6.06zm-3.55 13.15c.63-.75 1.61-1.19 2.65-1.19h2.5c1.04 0 2.02.44 2.65 1.19 1.4 1.67 2.17 3.87 1.94 6.26-.14 1.53-.76 2.89-1.68 3.89-.26-.22-.54-.39-.87-.49-.29-.09-.63-.14-1.02-.14s-.73.05-1.02.14c-.33.1-.61.27-.87.49-.92-1-.53-2.36-.68-3.9-.23-2.39.54-4.59 1.94-6.26z"/>
+                            </svg>
+                            Profile
+                        </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link icon-button" th:href="@{/cart}">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M7 21a2 2 0 01-2-2h2v2zm10 0v-2h2a2 2 0 01-2 2zM4 6h18l-1.33 6.25L20 18H6z"/>
+                            </svg>
+                            Cart
+                        </a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+                        <a href="#" class="nav-link icon-button">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M19 0H5C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zM7 20H5c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2h2v16zm14-2c0 1.1-.9 2-2 2h-2V4h2c1.1 0 2 .9 2 2v14z"/>
+                            </svg>
+                            My Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link icon-button">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M13.41 17.58L12 19l-7-7 7-7 1.41 1.41L8.83 12H20v2H8.83l4.58 4.59z"/>
+                            </svg>
+                            logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container-fluid mt-4">
+    <li class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(errorMessage)}"
+        th:text="${errorMessage}"></li>
+    <div class="row">
+        <div class="col-lg-3 col-sm-12">
+            <img th:src="'http://localhost:8080/show-book-cover-img/'+${book.bookId}" class="img-fluid">
+        </div>
+        <div class="col-lg-9 col-sm-12">
+            <h1 th:text="${book.bookName}"></h1>
+            <p class="text-primary" th:text="'Price : $'+${book.price}"></p>
+            <a href="" class="btn btn-warning">Buy Now</a>
+            <a th:href="@{'/add-to-cart/'+${book.bookId}}" class="btn btn-secondary">Add to Cart</a><p>Rating</p><br>
+            <div class="rating mt-3 p-2" th:data-rating-value="${grantRating}">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 p-2">
+            <h3>About the Book</h3>
+            <p  th:text="${book.bookSummary}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 p-2">
+            <h3>About the Author</h3>
+            <p  th:text="${book.author.aboutAuthor}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-3 p-2">
+            <div class="container-fluid card">
+                <h1>Reviews</h1>
+                <div class="review-container">
+                    <div class="container-fluid">
+                        <div class="review-card" th:each="review:${reviews}">
+                            <div class="profile-image-container">
+                                <img th:src="'http://localhost:8080/show-profile-pic/'+${review.user.profilePicture.profilePicId}" alt="Profile Image 1" class="profile-image">
+                            </div>
+                            <div class="reviewer-name" th:text="${review.user.firstName}"></div>
+                            <div class="rating-1 cmn mt-3 p-2 reviewer-name" th:data-rating-user-value="${review.rating}">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
+
+                            <div class="review-text" th:text="${review.reviewText}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 ">
+            <div class="container-fluid mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Write a Review</h4>
+                                <form method="post" th:action="@{/post-review}">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" id="hid" th:value="${book.bookId}" required name="bookId">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rating">Rating</label>
+                                        <select class="form-control" id="rating" required name="rating">
+                                            <option value="">Select rating</option>
+                                            <option value="5">5 Stars</option>
+                                            <option value="4">4 Stars</option>
+                                            <option value="3">3 Stars</option>
+                                            <option value="2">2 Stars</option>
+                                            <option value="1">1 Star</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="review">Your Review</label>
+                                        <textarea class="form-control" id="review" rows="5" placeholder="Write your review here" required name="reviewText"></textarea>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">Submit Review</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const ratingValue = document.querySelector('.rating').getAttribute('data-rating-value');;
+
+    for (let i = 0; i < parseInt(ratingValue); i++) {
+        document.querySelector('.rating .star:nth-child(' + (i + 1) + ')').classList.add('gold');
+    }
+    const rate=document.querySelector('.rating-1').getAttribute('data-rating-user-value');
+    for (let i = 0; i < parseInt(rate); i++) {
+        document.querySelector('.cmn .star:nth-child(' + (i + 1) + ')').classList.add('gold');
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
